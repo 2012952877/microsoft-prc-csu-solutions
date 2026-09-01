@@ -552,7 +552,7 @@
     }
 
     .chip-s3 {
-      top: 7%;
+      top: 2%;
       left: -4%;
       animation-delay: -1.2s;
     }
@@ -562,8 +562,8 @@
     }
 
     .chip-aiops {
-      top: 17%;
-      right: -5%;
+      top: 8%;
+      right: -6%;
       animation-delay: -2.8s;
     }
 
@@ -571,9 +571,29 @@
       background: linear-gradient(135deg, var(--cyan), var(--violet));
     }
 
+    .chip-token {
+      top: 40%;
+      left: -11%;
+      animation-delay: -5.1s;
+    }
+
+    .chip-token span:first-child {
+      background: linear-gradient(135deg, var(--violet), var(--purple));
+    }
+
+    .chip-cockpit {
+      top: 45%;
+      right: -12%;
+      animation-delay: -3.5s;
+    }
+
+    .chip-cockpit span:first-child {
+      background: linear-gradient(135deg, var(--blue-bright), var(--violet));
+    }
+
     .chip-sdd {
-      bottom: 12%;
-      left: -8%;
+      bottom: 4%;
+      left: -7%;
       animation-delay: -4s;
     }
 
@@ -582,8 +602,8 @@
     }
 
     .chip-data {
-      right: -4%;
-      bottom: 5%;
+      right: -6%;
+      bottom: 1%;
       animation-delay: -0.6s;
     }
 
@@ -1579,11 +1599,13 @@
       }
 
       .chip-s3,
+      .chip-token,
       .chip-sdd {
         left: -2%;
       }
 
       .chip-aiops,
+      .chip-cockpit,
       .chip-data {
         right: -2%;
       }
@@ -1787,8 +1809,10 @@
           </div>
           <div class="floating-chip chip-s3"><span>S3</span><span>S3 Proxy</span></div>
           <div class="floating-chip chip-aiops"><span>AI</span><span>AIOps</span></div>
+          <div class="floating-chip chip-token"><span>TP</span><span>Token Proxy</span></div>
+          <div class="floating-chip chip-cockpit"><span>CX</span><span>Cockpit</span></div>
           <div class="floating-chip chip-sdd"><span>SDD</span><span>Spec-driven</span></div>
-          <div class="floating-chip chip-data"><span>DP</span><span>Open data</span></div>
+          <div class="floating-chip chip-data"><span>LH</span><span>Lakehouse</span></div>
         </div>
       </div>
     </section>
@@ -2163,7 +2187,7 @@
         ],
         zh: {
           category: "数据与 AI 平台",
-          name: "自建湖仓数据平台",
+          name: "Lakehouse",
           tagline: "数据属于客户，格式保持开放，计算可以随需而变。",
           description: "以开放表格式、客户自有存储和可替换计算引擎，构建自主可控且面向未来的湖仓底座。",
           capabilities: ["Delta / Iceberg 开放表格式", "客户自有 ADLS Gen2 存储与统一治理", "Databricks、Fabric 与兼容引擎的灵活组合"],
@@ -2182,7 +2206,7 @@
         },
         en: {
           category: "Data & AI platform",
-          name: "Self-hosted Lakehouse",
+          name: "Lakehouse",
           tagline: "Own the data. Keep the format open. Change the compute when needed.",
           description: "A customer-controlled lakehouse foundation built on open table formats, customer-owned storage, and replaceable compute engines.",
           capabilities: ["Open Delta and Iceberg table formats", "Customer-owned ADLS Gen2 storage and unified governance", "A flexible mix of Databricks, Fabric, and compatible engines"],
