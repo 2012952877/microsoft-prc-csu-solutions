@@ -1,0 +1,2493 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Microsoft PRC CSU Innovation Solutions">
+  <link rel="icon" href="data:,">
+  <title>Microsoft PRC CSU · Innovation Solutions</title>
+  <script>
+    (() => {
+      const language = "en";
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+      document.documentElement.dataset.language = language;
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f5f8fc;
+      --page-deep: #eaf2fb;
+      --surface: #ffffff;
+      --surface-soft: #f7f9fc;
+      --surface-dark: #071a32;
+      --text: #172033;
+      --text-strong: #091426;
+      --muted: #58677c;
+      --soft: #7a8799;
+      --line: rgba(25, 54, 93, 0.12);
+      --line-strong: rgba(25, 54, 93, 0.22);
+      --blue: #0067b8;
+      --blue-bright: #0078d4;
+      --cyan: #00a4ef;
+      --violet: #5c2d91;
+      --purple: #8661c5;
+      --green: #107c10;
+      --lime: #7fba00;
+      --orange: #f7630c;
+      --gold: #ffb900;
+      --white: #ffffff;
+      --shadow-sm: 0 2px 8px rgba(18, 42, 72, 0.08);
+      --shadow-md: 0 18px 55px rgba(24, 54, 92, 0.12);
+      --shadow-lg: 0 32px 90px rgba(7, 26, 50, 0.2);
+      --radius: 24px;
+      --radius-sm: 14px;
+      --max: 1440px;
+      --cursor-x: 50%;
+      --cursor-y: 40%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      min-height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(0, 164, 239, 0.08), transparent 30rem),
+        linear-gradient(180deg, var(--page) 0%, var(--surface) 44%, var(--page) 100%);
+      color: var(--text);
+      font-family: "Segoe UI Variable", "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      content: "";
+      opacity: 0.45;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, black, transparent 70%);
+    }
+
+    body.lang-changing main {
+      animation: languageFade 260ms ease both;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    [role="button"],
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan), var(--violet));
+      box-shadow: 0 0 16px rgba(0, 164, 239, 0.45);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .site-header.scrolled {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(22px) saturate(145%);
+    }
+
+    .nav-shell {
+      width: min(calc(100% - 40px), var(--max));
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .ms-mark {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .ms-mark span:nth-child(1) {
+      background: #f25022;
+    }
+
+    .ms-mark span:nth-child(2) {
+      background: #7fba00;
+    }
+
+    .ms-mark span:nth-child(3) {
+      background: #00a4ef;
+    }
+
+    .ms-mark span:nth-child(4) {
+      background: #ffb900;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      display: grid;
+      gap: 1px;
+    }
+
+    .brand-copy strong {
+      overflow: hidden;
+      color: var(--text-strong);
+      font-size: 16px;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 18px;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .desktop-nav a {
+      position: relative;
+      padding: 9px 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 160ms ease;
+    }
+
+    .desktop-nav a::after {
+      position: absolute;
+      right: 0;
+      bottom: 3px;
+      left: 0;
+      height: 2px;
+      border-radius: 999px;
+      content: "";
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 180ms ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--text-strong);
+    }
+
+    .desktop-nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .language-switch {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(14px);
+    }
+
+    .language-button {
+      min-width: 48px;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .language-button:hover {
+      color: var(--text-strong);
+      transform: translateY(-1px);
+    }
+
+    .language-button.active {
+      background: var(--text-strong);
+      color: var(--white);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 720px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 74px 0 88px;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      content: "";
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .hero::before {
+      top: -220px;
+      right: -120px;
+      width: 640px;
+      height: 640px;
+      background:
+        radial-gradient(circle at 32% 32%, rgba(0, 164, 239, 0.48), transparent 36%),
+        radial-gradient(circle at 68% 65%, rgba(92, 45, 145, 0.28), transparent 42%);
+      animation: breathe 9s ease-in-out infinite;
+    }
+
+    .hero::after {
+      bottom: -260px;
+      left: -200px;
+      width: 620px;
+      height: 620px;
+      background: radial-gradient(circle, rgba(0, 103, 184, 0.15), transparent 65%);
+      animation: breathe 11s ease-in-out infinite reverse;
+    }
+
+    .hero-shell {
+      width: min(calc(100% - 40px), var(--max));
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(460px, 0.96fr);
+      align-items: center;
+      gap: clamp(52px, 7vw, 110px);
+      margin: 0 auto;
+    }
+
+    .hero-copy {
+      max-width: 780px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      width: 34px;
+      height: 2px;
+      border-radius: 999px;
+      content: "";
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      color: var(--text-strong);
+      font-size: clamp(54px, 6.1vw, 94px);
+      font-weight: 660;
+      letter-spacing: -0.065em;
+      line-height: 0.99;
+    }
+
+    html[data-language="zh"] h1 {
+      font-size: clamp(52px, 5.5vw, 82px);
+    }
+
+    .gradient-word {
+      color: transparent;
+      background: linear-gradient(105deg, var(--blue) 0%, var(--cyan) 48%, var(--violet) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero-lead {
+      max-width: 700px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: clamp(17px, 1.6vw, 22px);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .primary-button,
+    .text-button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .primary-button {
+      padding: 0 24px;
+      background: var(--text-strong);
+      color: var(--white);
+      box-shadow: 0 14px 34px rgba(9, 20, 38, 0.22);
+    }
+
+    .primary-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px rgba(9, 20, 38, 0.28);
+    }
+
+    .primary-button svg,
+    .text-button svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 180ms ease;
+    }
+
+    .primary-button:hover svg,
+    .text-button:hover svg {
+      transform: translateX(4px);
+    }
+
+    .text-button {
+      padding: 0 8px;
+      color: var(--blue);
+    }
+
+    .text-button:hover {
+      color: var(--blue-bright);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 540px;
+      display: grid;
+      place-items: center;
+      perspective: 1200px;
+    }
+
+    .hero-globe {
+      position: relative;
+      width: min(31vw, 440px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(0, 120, 212, 0.12);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.95), rgba(225, 242, 255, 0.7) 30%, rgba(0, 164, 239, 0.1) 58%, transparent 68%),
+        conic-gradient(from 210deg, rgba(0, 103, 184, 0.06), rgba(92, 45, 145, 0.14), rgba(0, 164, 239, 0.2), rgba(0, 103, 184, 0.06));
+      box-shadow:
+        inset 0 0 70px rgba(255, 255, 255, 0.85),
+        0 45px 100px rgba(0, 103, 184, 0.16);
+      animation: globeFloat 7s ease-in-out infinite;
+    }
+
+    .hero-globe::before,
+    .hero-globe::after {
+      position: absolute;
+      inset: 8%;
+      border: 1px solid rgba(0, 103, 184, 0.11);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .hero-globe::before {
+      transform: rotateX(66deg);
+    }
+
+    .hero-globe::after {
+      transform: rotateY(66deg);
+    }
+
+    .globe-core {
+      width: 132px;
+      height: 132px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: var(--shadow-lg);
+      color: var(--text-strong);
+      font-size: 35px;
+      font-weight: 720;
+      letter-spacing: -0.06em;
+      backdrop-filter: blur(18px);
+      transform: rotate(-4deg);
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 4%;
+      border: 1px dashed rgba(0, 103, 184, 0.18);
+      border-radius: 50%;
+      animation: orbitSpin 28s linear infinite;
+    }
+
+    .orbit:nth-child(2) {
+      inset: -8%;
+      border-color: rgba(92, 45, 145, 0.13);
+      animation-duration: 38s;
+      animation-direction: reverse;
+    }
+
+    .floating-chip {
+      position: absolute;
+      min-width: clamp(156px, 10vw, 184px);
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: 19px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 18px 45px rgba(22, 55, 96, 0.14);
+      color: var(--text-strong);
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(18px) saturate(145%);
+      animation: chipFloat 6s ease-in-out infinite;
+    }
+
+    .floating-chip span:first-child {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: var(--white);
+      font-size: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .chip-s3 {
+      top: 7%;
+      left: -4%;
+      animation-delay: -1.2s;
+    }
+
+    .chip-s3 span:first-child {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+    }
+
+    .chip-aiops {
+      top: 17%;
+      right: -5%;
+      animation-delay: -2.8s;
+    }
+
+    .chip-aiops span:first-child {
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+    }
+
+    .chip-sdd {
+      bottom: 12%;
+      left: -8%;
+      animation-delay: -4s;
+    }
+
+    .chip-sdd span:first-child {
+      background: linear-gradient(135deg, var(--green), var(--lime));
+    }
+
+    .chip-data {
+      right: -4%;
+      bottom: 5%;
+      animation-delay: -0.6s;
+    }
+
+    .chip-data span:first-child {
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+    }
+
+    .section {
+      padding: 112px 0;
+    }
+
+    .section-shell {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      max-width: 850px;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 13px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .section-head h2 {
+      margin-bottom: 17px;
+      color: var(--text-strong);
+      font-size: clamp(38px, 4.8vw, 66px);
+      font-weight: 650;
+      letter-spacing: -0.055em;
+      line-height: 1.04;
+    }
+
+    .section-head p {
+      max-width: 720px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .solutions-section {
+      position: relative;
+      border-block: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 82% 10%, rgba(0, 164, 239, 0.1), transparent 30rem),
+        linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+    }
+
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .solution-card {
+      --card-accent: var(--blue);
+      position: relative;
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+      grid-column: span 4;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: border-color 220ms ease, box-shadow 220ms ease, transform 180ms ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .solution-card::before {
+      position: absolute;
+      top: -90px;
+      right: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.16;
+      background: radial-gradient(circle, var(--card-accent), transparent 66%);
+      transition: opacity 240ms ease, transform 420ms ease;
+    }
+
+    .solution-card::after {
+      position: absolute;
+      right: 24px;
+      bottom: 22px;
+      width: 72px;
+      height: 72px;
+      border: 1px solid color-mix(in srgb, var(--card-accent) 28%, transparent);
+      border-radius: 50%;
+      content: "";
+      opacity: 0.65;
+      box-shadow:
+        0 0 0 14px color-mix(in srgb, var(--card-accent) 6%, transparent),
+        0 0 0 28px color-mix(in srgb, var(--card-accent) 3%, transparent);
+      transition: transform 420ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    }
+
+    .solution-card:hover {
+      border-color: color-mix(in srgb, var(--card-accent) 36%, var(--line));
+      box-shadow: var(--shadow-md);
+    }
+
+    .solution-card:hover::before {
+      opacity: 0.25;
+      transform: scale(1.12);
+    }
+
+    .solution-card:hover::after {
+      transform: scale(1.12) rotate(14deg);
+    }
+
+    .solution-card[data-id="s3proxy"] {
+      --card-accent: var(--blue);
+    }
+
+    .solution-card[data-id="aiops"] {
+      --card-accent: var(--cyan);
+    }
+
+    .solution-card[data-id="tokenproxy"] {
+      --card-accent: var(--violet);
+    }
+
+    .solution-card[data-id="sdd"] {
+      --card-accent: var(--green);
+    }
+
+    .solution-card[data-id="dataplatform"] {
+      --card-accent: var(--orange);
+    }
+
+    .solution-card[data-id="cockpit"] {
+      --card-accent: var(--blue-bright);
+      background:
+        linear-gradient(135deg, rgba(0, 103, 184, 0.07), rgba(92, 45, 145, 0.06)),
+        rgba(255, 255, 255, 0.82);
+    }
+
+    .card-topline {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 34px;
+      transform: translateZ(18px);
+    }
+
+    .solution-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--card-accent) 18%, var(--line));
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--card-accent) 9%, var(--surface));
+      color: var(--card-accent);
+    }
+
+    .solution-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .solution-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 740;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .solution-state::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      content: "";
+      background: var(--card-accent);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent) 55%, transparent);
+    }
+
+    .solution-category {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 9px;
+      color: var(--card-accent);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      transform: translateZ(15px);
+    }
+
+    .solution-card h3 {
+      position: relative;
+      z-index: 2;
+      max-width: 620px;
+      margin-bottom: 13px;
+      color: var(--text-strong);
+      font-size: clamp(24px, 2.2vw, 32px);
+      font-weight: 650;
+      letter-spacing: -0.045em;
+      line-height: 1.06;
+      transform: translateZ(24px);
+    }
+
+    .solution-card p {
+      position: relative;
+      z-index: 2;
+      max-width: 620px;
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.58;
+      transform: translateZ(12px);
+    }
+
+    .card-footer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 112px;
+      align-items: flex-end;
+      gap: 18px;
+      margin-top: auto;
+      transform: translateZ(18px);
+    }
+
+    .solution-lead {
+      display: grid;
+      gap: 2px;
+    }
+
+    .solution-lead span {
+      color: var(--soft);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .solution-lead strong {
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .discover-link {
+      width: 112px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+      color: var(--card-accent);
+      font-size: 11px;
+      font-weight: 740;
+      white-space: nowrap;
+    }
+
+    .discover-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 180ms ease;
+    }
+
+    .solution-card:hover .discover-link svg {
+      transform: translateX(4px);
+    }
+
+    .journey-section {
+      position: relative;
+      overflow: hidden;
+      background: var(--surface-dark);
+      color: var(--white);
+    }
+
+    .journey-section::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      opacity: 0.52;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(0, 164, 239, 0.28), transparent 27rem),
+        radial-gradient(circle at 88% 70%, rgba(92, 45, 145, 0.36), transparent 30rem);
+      animation: gradientDrift 12s ease-in-out infinite alternate;
+    }
+
+    .journey-section .section-shell {
+      position: relative;
+      z-index: 2;
+    }
+
+    .journey-section .section-label {
+      color: #71d3ff;
+    }
+
+    .journey-section .section-head h2,
+    .journey-section .section-head p {
+      color: var(--white);
+    }
+
+    .journey-section .section-head p {
+      opacity: 0.72;
+    }
+
+    .journey-rail {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .journey-item {
+      min-height: 210px;
+      padding: 28px 24px;
+      background: rgba(7, 26, 50, 0.72);
+      transition: background 200ms ease, transform 200ms ease;
+    }
+
+    .journey-item:hover {
+      background: rgba(17, 49, 86, 0.8);
+      transform: translateY(-3px);
+    }
+
+    .journey-number {
+      display: inline-block;
+      margin-bottom: 42px;
+      color: #71d3ff;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .journey-item h3 {
+      margin-bottom: 9px;
+      color: var(--white);
+      font-size: 19px;
+      font-weight: 620;
+      letter-spacing: -0.025em;
+    }
+
+    .journey-item p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .closing {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 130px;
+      text-align: center;
+    }
+
+    .closing::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      width: 760px;
+      height: 420px;
+      border-radius: 50%;
+      content: "";
+      background:
+        radial-gradient(circle at 30% 45%, rgba(0, 164, 239, 0.18), transparent 42%),
+        radial-gradient(circle at 65% 50%, rgba(92, 45, 145, 0.16), transparent 44%);
+      filter: blur(30px);
+      transform: translate(-50%, -50%);
+      animation: breathe 9s ease-in-out infinite;
+    }
+
+    .closing h2 {
+      max-width: 980px;
+      margin: 0 auto 24px;
+      color: var(--text-strong);
+      font-size: clamp(42px, 5.4vw, 78px);
+      font-weight: 650;
+      letter-spacing: -0.06em;
+      line-height: 1.02;
+    }
+
+    .closing p {
+      max-width: 700px;
+      margin: 0 auto 34px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .closing-signature {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-strong);
+      font-size: 12px;
+      font-weight: 720;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .footer-shell {
+      width: min(calc(100% - 40px), var(--max));
+      min-height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .footer-brand .ms-mark {
+      width: 20px;
+      height: 20px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition:
+        opacity 700ms cubic-bezier(0.2, 0.75, 0.25, 1),
+        transform 700ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    dialog {
+      width: min(1180px, calc(100vw - 32px));
+      max-height: min(880px, calc(100vh - 32px));
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--text);
+      box-shadow: 0 40px 120px rgba(7, 26, 50, 0.3);
+      backdrop-filter: blur(24px);
+    }
+
+    dialog::backdrop {
+      background: rgba(5, 18, 35, 0.64);
+      backdrop-filter: blur(12px);
+    }
+
+    .dialog-shell {
+      max-height: min(880px, calc(100vh - 32px));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dialog-head {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 30px 32px 24px;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--dialog-accent) 17%, transparent), transparent 20rem),
+        var(--surface);
+    }
+
+    .dialog-head-copy {
+      min-width: 0;
+    }
+
+    .dialog-category {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--dialog-accent);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .dialog-head h2 {
+      margin-bottom: 8px;
+      color: var(--text-strong);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 650;
+      letter-spacing: -0.05em;
+      line-height: 1.03;
+    }
+
+    .dialog-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dialog-close {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+      font-size: 22px;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .dialog-close:hover {
+      background: var(--surface-soft);
+      transform: rotate(8deg);
+    }
+
+    .dialog-body {
+      overflow: auto;
+      padding: 28px 32px 34px;
+    }
+
+    .dialog-statement {
+      max-width: 850px;
+      margin-bottom: 28px;
+      color: var(--text-strong);
+      font-size: clamp(20px, 2.4vw, 30px);
+      font-weight: 560;
+      letter-spacing: -0.03em;
+      line-height: 1.35;
+    }
+
+    .dialog-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .dialog-panel {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-soft);
+    }
+
+    .dialog-panel h3 {
+      margin-bottom: 14px;
+      color: var(--text-strong);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .capability-list {
+      display: grid;
+      gap: 11px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .capability-list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .capability-list li::before {
+      position: absolute;
+      top: 0.58em;
+      left: 1px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      content: "";
+      background: var(--dialog-accent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--dialog-accent) 42%, transparent);
+    }
+
+    .outcome-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--dialog-accent) 10%, var(--surface)), var(--surface-soft));
+    }
+
+    .outcome-panel p {
+      margin-bottom: 26px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .dialog-lead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .dialog-lead span {
+      color: var(--soft);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dialog-lead strong {
+      color: var(--text-strong);
+      font-size: 12px;
+      font-weight: 680;
+    }
+
+    .architecture-panel {
+      margin-top: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--dialog-accent) 9%, transparent), transparent 24rem),
+        var(--surface);
+    }
+
+    .architecture-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .architecture-head h3 {
+      margin: 0;
+      color: var(--text-strong);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .architecture-head p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    .architecture-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 2px 2px 10px;
+      scrollbar-width: thin;
+    }
+
+    .architecture-stage {
+      position: relative;
+      min-width: 152px;
+      flex: 1 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-soft);
+    }
+
+    .architecture-stage:not(:last-child)::after {
+      position: absolute;
+      top: 50%;
+      right: -14px;
+      z-index: 3;
+      width: 16px;
+      height: 16px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      content: "›";
+      background: var(--surface);
+      color: var(--dialog-accent);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+      transform: translateY(-50%);
+    }
+
+    .stage-index {
+      display: block;
+      margin-bottom: 13px;
+      color: var(--dialog-accent);
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 9px;
+      font-weight: 750;
+    }
+
+    .architecture-stage strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--text-strong);
+      font-size: 13px;
+      font-weight: 680;
+      line-height: 1.25;
+    }
+
+    .architecture-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .architecture-items span {
+      padding: 4px 6px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 650;
+      line-height: 1.2;
+    }
+
+    .architecture-foundation {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-left: 3px solid var(--dialog-accent);
+      border-radius: 0 10px 10px 0;
+      background: color-mix(in srgb, var(--dialog-accent) 6%, var(--surface-soft));
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .technology-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .technology-chip {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .project-link,
+    .project-link-disabled {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 720;
+    }
+
+    .project-link {
+      border: 1px solid var(--dialog-accent);
+      background: var(--dialog-accent);
+      color: var(--white);
+      box-shadow: 0 10px 24px color-mix(in srgb, var(--dialog-accent) 22%, transparent);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .project-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px color-mix(in srgb, var(--dialog-accent) 28%, transparent);
+    }
+
+    .project-link svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .project-link-disabled {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--soft);
+    }
+
+    @keyframes breathe {
+      0%,
+      100% {
+        transform: scale(0.96);
+      }
+      50% {
+        transform: scale(1.06);
+      }
+    }
+
+    @keyframes globeFloat {
+      0%,
+      100% {
+        transform: translateY(-7px) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(10px) rotate(2deg);
+      }
+    }
+
+    @keyframes chipFloat {
+      0%,
+      100% {
+        transform: translateY(-8px) rotate(-1deg);
+      }
+      50% {
+        transform: translateY(9px) rotate(1deg);
+      }
+    }
+
+    @keyframes orbitSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes gradientDrift {
+      0% {
+        transform: scale(1) translate3d(-1%, -1%, 0);
+      }
+      100% {
+        transform: scale(1.08) translate3d(2%, 2%, 0);
+      }
+    }
+
+    @keyframes languageFade {
+      0% {
+        opacity: 0.25;
+        transform: translateY(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1120px) {
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        max-width: 900px;
+      }
+
+      .hero-visual {
+        min-height: 500px;
+      }
+
+      .hero-globe {
+        width: min(58vw, 440px);
+      }
+
+      .solution-card {
+        min-height: 380px;
+        grid-column: span 6;
+      }
+
+      .journey-rail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 780px) {
+      .nav-shell,
+      .hero-shell,
+      .section-shell,
+      .footer-shell {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .nav-shell {
+        min-height: 66px;
+      }
+
+      .brand-copy span,
+      .desktop-nav {
+        display: none;
+      }
+
+      .language-button {
+        min-width: 42px;
+        min-height: 32px;
+        padding: 0 10px;
+      }
+
+      .hero {
+        padding: 54px 0 72px;
+      }
+
+      .hero-shell {
+        gap: 44px;
+      }
+
+      h1 {
+        font-size: clamp(48px, 13vw, 72px);
+      }
+
+      .hero-lead {
+        font-size: 17px;
+      }
+
+      .hero-visual {
+        min-height: 430px;
+      }
+
+      .hero-globe {
+        width: min(76vw, 390px);
+      }
+
+      .floating-chip {
+        min-width: 126px;
+        min-height: 56px;
+        padding: 9px 11px;
+        font-size: 10px;
+      }
+
+      .floating-chip span:first-child {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        font-size: 9px;
+      }
+
+      .chip-s3,
+      .chip-sdd {
+        left: -2%;
+      }
+
+      .chip-aiops,
+      .chip-data {
+        right: -2%;
+      }
+
+      .section {
+        padding: 86px 0;
+      }
+
+      .section-head {
+        margin-bottom: 34px;
+      }
+
+      .solutions-grid {
+        gap: 14px;
+      }
+
+      .solution-card {
+        min-height: 360px;
+        grid-column: span 12;
+        padding: 24px;
+      }
+
+      .solution-card h3 {
+        font-size: 30px;
+      }
+
+      .journey-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .journey-item {
+        min-height: 168px;
+      }
+
+      .journey-number {
+        margin-bottom: 24px;
+      }
+
+      .dialog-head,
+      .dialog-body {
+        padding-right: 22px;
+        padding-left: 22px;
+      }
+
+      .dialog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .architecture-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .architecture-head p {
+        text-align: left;
+      }
+
+      .architecture-flow {
+        align-items: stretch;
+        flex-direction: column;
+        overflow: visible;
+        padding-bottom: 0;
+      }
+
+      .architecture-stage {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .architecture-stage:not(:last-child)::after {
+        top: auto;
+        right: 50%;
+        bottom: -15px;
+        transform: translateX(50%) rotate(90deg);
+      }
+
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-shell {
+        min-height: 100px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-copy strong {
+        font-size: 13px;
+      }
+
+      .language-button {
+        min-width: 38px;
+        padding: 0 8px;
+        font-size: 10px;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .primary-button,
+      .text-button {
+        width: 100%;
+      }
+
+      .hero-visual {
+        min-height: 380px;
+      }
+
+      .floating-chip {
+        min-width: auto;
+      }
+
+      .floating-chip span:last-child {
+        display: none;
+      }
+
+      .solution-card {
+        min-height: 340px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="Microsoft PRC CSU">
+        <span class="ms-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="brand-copy">
+          <strong>Microsoft PRC CSU</strong>
+          <span data-i18n="brandSub">Innovation Solutions</span>
+        </span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#solutions" data-i18n="navSolutions">Solutions</a>
+          <a href="#journey" data-i18n="navApproach">Our approach</a>
+          <a href="#connect" data-i18n="navConnect">Connect</a>
+        </nav>
+        <div class="language-switch" aria-label="Language">
+          <button class="language-button" type="button" data-language-button="zh">中文</button>
+          <button class="language-button active" type="button" data-language-button="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-shell">
+        <div class="hero-copy reveal">
+          <div class="hero-kicker">Microsoft PRC CSU</div>
+          <h1 data-i18n-html="heroTitle">Innovation that moves<br><span class="gradient-word">Enterprise Cloud Forward.</span></h1>
+          <p class="hero-lead" data-i18n="heroLead">A curated set of engineering solutions from Microsoft PRC CSU—spanning cloud migration, intelligent operations, enterprise AI access, modern delivery, and open data platforms.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#solutions">
+              <span data-i18n="exploreSolutions">Explore solutions</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a class="text-button" href="#journey">
+              <span data-i18n="seeApproach">See our approach</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="hero-globe">
+            <span class="orbit"></span>
+            <span class="orbit"></span>
+            <div class="globe-core">CSU</div>
+          </div>
+          <div class="floating-chip chip-s3"><span>S3</span><span>S3 Proxy</span></div>
+          <div class="floating-chip chip-aiops"><span>AI</span><span>AIOps</span></div>
+          <div class="floating-chip chip-sdd"><span>SDD</span><span>Spec-driven</span></div>
+          <div class="floating-chip chip-data"><span>DP</span><span>Open data</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section solutions-section" id="solutions">
+      <div class="section-shell">
+        <header class="section-head reveal">
+          <span class="section-label" data-i18n="solutionsLabel">Featured solutions</span>
+          <h2 data-i18n-html="solutionsTitle">Built for the moments<br>that define transformation.</h2>
+          <p data-i18n="solutionsLead">From foundational infrastructure to intelligent experiences, each solution focuses on a clear enterprise challenge and a practical path forward.</p>
+        </header>
+        <div class="solutions-grid" id="solutionsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section journey-section" id="journey">
+      <div class="section-shell">
+        <header class="section-head reveal">
+          <span class="section-label" data-i18n="journeyLabel">How we create impact</span>
+          <h2 data-i18n-html="journeyTitle">One journey.<br>Five ways to move forward.</h2>
+          <p data-i18n="journeyLead">We connect strategy, engineering, and customer reality—so innovation becomes something teams can experience, operate, and scale.</p>
+        </header>
+        <div class="journey-rail" id="journeyRail"></div>
+      </div>
+    </section>
+
+    <section class="closing" id="connect">
+      <div class="section-shell reveal">
+        <h2 data-i18n-html="closingTitle">Cloud innovation feels different<br>when it is built around you.</h2>
+        <p data-i18n="closingLead">Microsoft PRC CSU brings customer context, engineering depth, and an ecosystem mindset together to turn ambitious ideas into working solutions.</p>
+        <div class="closing-signature">
+          <span class="ms-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span>Microsoft PRC CSU</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-shell">
+      <div class="footer-brand">
+        <span class="ms-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span>Microsoft PRC CSU</span>
+      </div>
+      <span data-i18n="footerLine">Customer success, powered by engineering.</span>
+    </div>
+  </footer>
+
+  <dialog id="solutionDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-shell">
+      <header class="dialog-head">
+        <div class="dialog-head-copy">
+          <span class="dialog-category" id="dialogCategory"></span>
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogMeta"></p>
+        </div>
+        <button class="dialog-close" id="dialogClose" type="button" aria-label="Close">×</button>
+      </header>
+      <div class="dialog-body">
+        <p class="dialog-statement" id="dialogStatement"></p>
+        <div class="dialog-grid">
+          <section class="dialog-panel">
+            <h3 data-i18n="signatureCapabilities">Signature capabilities</h3>
+            <ul class="capability-list" id="dialogCapabilities"></ul>
+          </section>
+          <section class="dialog-panel outcome-panel">
+            <div>
+              <h3 data-i18n="customerOutcome">Customer outcome</h3>
+              <p id="dialogOutcome"></p>
+            </div>
+            <div class="dialog-lead">
+              <span data-i18n="solutionLead">Solution lead</span>
+              <strong id="dialogLead"></strong>
+            </div>
+          </section>
+        </div>
+        <section class="architecture-panel">
+          <header class="architecture-head">
+            <h3 data-i18n="architectureTitle">Architecture at a glance</h3>
+            <p id="dialogArchitectureNote"></p>
+          </header>
+          <div class="architecture-flow" id="dialogArchitecture"></div>
+          <div class="architecture-foundation" id="dialogFoundation"></div>
+        </section>
+        <div class="resource-grid">
+          <section class="dialog-panel">
+            <h3 data-i18n="technologyTitle">Technology context</h3>
+            <div class="technology-list" id="dialogTechnologies"></div>
+          </section>
+          <section class="dialog-panel">
+            <h3 data-i18n="projectResources">Project resources</h3>
+            <div class="project-links" id="dialogLinks"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const COPY = {
+      zh: {
+        brandSub: "创新解决方案",
+        navSolutions: "解决方案",
+        navApproach: "我们的方式",
+        navConnect: "连接",
+        heroTitle: "让企业云上创新，<br><span class=\"gradient-word\">加速走向真实价值。</span>",
+        heroLead: "来自 Microsoft PRC CSU 的精选工程解决方案，覆盖云迁移、智能运维、企业 AI 接入、现代研发与开放数据平台。",
+        exploreSolutions: "探索解决方案",
+        seeApproach: "了解我们的方式",
+        solutionsLabel: "精选解决方案",
+        solutionsTitle: "为每一个决定转型成败的<br>关键时刻而构建。",
+        solutionsLead: "从基础设施到底层平台，再到智能体验，每项方案都聚焦清晰的企业挑战，以及一条真正可行的前进路径。",
+        journeyLabel: "如何创造价值",
+        journeyTitle: "一段旅程，<br>五种向前的力量。",
+        journeyLead: "我们把战略、工程能力与客户现实连接起来，让创新不仅能被看见，更能被体验、运营和规模化。",
+        closingTitle: "当创新围绕真实需求构建，<br>云的价值会完全不同。",
+        closingLead: "Microsoft PRC CSU 汇聚客户洞察、工程深度与生态思维，把大胆设想转化为真正可以运行的解决方案。",
+        footerLine: "以工程能力，成就客户成功。",
+        solutionLead: "方案负责人",
+        discover: "了解方案",
+        signatureCapabilities: "核心能力",
+        customerOutcome: "客户价值",
+        architectureTitle: "核心架构",
+        technologyTitle: "技术体系",
+        projectResources: "项目入口",
+        openGitHub: "打开 GitHub",
+        openSolutionPage: "打开方案页",
+        openExperience: "打开产品体验",
+        openBrief: "打开方案文档",
+        resourcePending: "项目入口即将提供",
+        statusFeatured: "重点方案",
+        statusPilot: "试点中",
+        statusPrototype: "原型方案",
+        statusDelivered: "已交付",
+        statusComing: "即将推出"
+      },
+      en: {
+        brandSub: "Innovation Solutions",
+        navSolutions: "Solutions",
+        navApproach: "Our approach",
+        navConnect: "Connect",
+        heroTitle: "Innovation that moves<br><span class=\"gradient-word\">Enterprise Cloud Forward.</span>",
+        heroLead: "A curated set of engineering solutions from Microsoft PRC CSU—spanning cloud migration, intelligent operations, enterprise AI access, modern delivery, and open data platforms.",
+        exploreSolutions: "Explore solutions",
+        seeApproach: "See our approach",
+        solutionsLabel: "Featured solutions",
+        solutionsTitle: "Built for the moments<br>that define transformation.",
+        solutionsLead: "From foundational infrastructure to intelligent experiences, each solution focuses on a clear enterprise challenge and a practical path forward.",
+        journeyLabel: "How we create impact",
+        journeyTitle: "One journey.<br>Five ways to move forward.",
+        journeyLead: "We connect strategy, engineering, and customer reality—so innovation becomes something teams can experience, operate, and scale.",
+        closingTitle: "Cloud innovation feels different<br>when it is built around you.",
+        closingLead: "Microsoft PRC CSU brings customer context, engineering depth, and an ecosystem mindset together to turn ambitious ideas into working solutions.",
+        footerLine: "Customer success, powered by engineering.",
+        solutionLead: "Solution lead",
+        discover: "Discover",
+        signatureCapabilities: "Signature capabilities",
+        customerOutcome: "Customer outcome",
+        architectureTitle: "Architecture at a glance",
+        technologyTitle: "Technology context",
+        projectResources: "Project resources",
+        openGitHub: "Open GitHub",
+        openSolutionPage: "Open solution page",
+        openExperience: "Open experience",
+        openBrief: "Open solution brief",
+        resourcePending: "Project resource coming soon",
+        statusFeatured: "Featured",
+        statusPilot: "In pilot",
+        statusPrototype: "Prototype",
+        statusDelivered: "Delivered",
+        statusComing: "Coming soon"
+      }
+    };
+
+    const SOLUTIONS = [
+      {
+        id: "s3proxy",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Zm0 0 8 4.5 8-4.5M12 12v9" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+        lead: "Jimmy",
+        statusKey: "statusFeatured",
+        technologies: ["Rust", "Azure Blob Storage", "AKS", "PostgreSQL", "Redis", "Prometheus"],
+        links: [
+          { labelKey: "openGitHub", url: "https://github.com/cloudinfraz/s3proxy-rs" }
+        ],
+        zh: {
+          category: "云迁移",
+          name: "S3 Proxy",
+          tagline: "无需重写应用，把 S3 工作负载带到 Azure。",
+          description: "高性能 S3 兼容网关，把熟悉的对象存储体验映射到 Azure Blob Storage。",
+          capabilities: ["S3 兼容 API 与主流客户端工作流", "Azure 原生对象与版本能力", "面向云原生部署的控制面与数据面"],
+          outcome: "以更低改造成本和更短迁移路径，让现有 S3 生态平滑进入 Azure。",
+          architecture: {
+            note: "兼容层把现有 S3 客户端与 Azure 原生对象存储连接起来，同时把身份、策略、路由与运维能力留在统一控制边界中。",
+            stages: [
+              { title: "S3 客户端", items: ["AWS CLI", "SDKs", "备份工具"] },
+              { title: "兼容入口", items: ["SigV4", "Bucket / Object", "Multipart"] },
+              { title: "代理核心", items: ["策略授权", "后端路由", "流式传输"] },
+              { title: "Azure 数据层", items: ["Blob Storage", "版本", "访问层级"] }
+            ],
+            foundation: "运行底座：AKS / 单进程部署 · PostgreSQL 元数据 · Redis 缓存与分片状态 · Prometheus 可观测性"
+          }
+        },
+        en: {
+          category: "Cloud migration",
+          name: "S3 Proxy",
+          tagline: "Bring S3 workloads to Azure—without rewriting the application.",
+          description: "A high-performance S3-compatible gateway that maps familiar object-storage workflows to Azure Blob Storage.",
+          capabilities: ["S3-compatible APIs and client workflows", "Azure-native object and version capabilities", "Cloud-native control and data planes"],
+          outcome: "Create a faster, lower-friction path from existing S3 ecosystems to Azure.",
+          architecture: {
+            note: "A compatibility layer connects existing S3 clients to Azure-native object storage while keeping identity, policy, routing, and operations within one control boundary.",
+            stages: [
+              { title: "S3 clients", items: ["AWS CLI", "SDKs", "Backup tools"] },
+              { title: "Compatible edge", items: ["SigV4", "Bucket / Object", "Multipart"] },
+              { title: "Proxy core", items: ["Policy", "Backend routing", "Streaming"] },
+              { title: "Azure data", items: ["Blob Storage", "Versions", "Access tiers"] }
+            ],
+            foundation: "Runtime foundation: AKS or single-process deployment · PostgreSQL metadata · Redis cache and multipart state · Prometheus observability"
+          }
+        }
+      },
+      {
+        id: "aiops",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 17h3l2-7 3 10 3-13 2 10h3M4 5h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        lead: "Ruizhen",
+        statusKey: "statusPilot",
+        technologies: ["Azure Monitor", "Resource Graph", "Kusto", "Node.js", "RAG", "Prometheus"],
+        links: [
+          { labelKey: "openExperience", url: "https://aiopsvm.gowrk.net/" }
+        ],
+        zh: {
+          category: "智能运维",
+          name: "AIOps",
+          tagline: "从信号到根因，从洞察到行动。",
+          description: "面向 Azure 环境的 AI 辅助运维体验，把证据驱动诊断、事件推理与协同处置连接起来。",
+          capabilities: ["多 Agent 并行诊断与分支收敛", "基于证据的根因分析与历史回放", "从事件研判到支持协作的完整链路"],
+          outcome: "帮助运维团队更快、更有把握地解决复杂事件，并把经验沉淀为可复用能力。",
+          architecture: {
+            note: "平台先建立精确事件窗口，再并行收集性能、平台、网络与生命周期证据，最终把统一判定带入处置流程。",
+            stages: [
+              { title: "信号与上下文", items: ["Monitor", "Resource Graph", "事件时间窗"] },
+              { title: "智能编排", items: ["Triage", "多 Agent", "Runbooks / RAG"] },
+              { title: "证据与判定", items: ["Kusto", "分支验证", "RCA 结论"] },
+              { title: "处置闭环", items: ["历史回放", "活动记录", "Support Ticket"] }
+            ],
+            foundation: "安全边界：订阅白名单 · 私网范围 · 查询时间窗与频控 · RBAC / OIDC · 审计与 Prometheus 指标"
+          }
+        },
+        en: {
+          category: "Intelligent operations",
+          name: "AIOps",
+          tagline: "From signal to root cause. From insight to action.",
+          description: "An AI-assisted operations experience connecting evidence-led diagnosis, incident reasoning, and coordinated response across Azure environments.",
+          capabilities: ["Parallel multi-agent diagnosis and convergence", "Evidence-driven root cause analysis and replay", "An end-to-end path from incident insight to response"],
+          outcome: "Help operations teams resolve complex incidents with greater speed, confidence, and repeatability.",
+          architecture: {
+            note: "The platform establishes a precise incident window, gathers performance, platform, network, and lifecycle evidence in parallel, then carries one verdict into response workflows.",
+            stages: [
+              { title: "Signals & context", items: ["Monitor", "Resource Graph", "Incident window"] },
+              { title: "AI orchestration", items: ["Triage", "Multi-agent", "Runbooks / RAG"] },
+              { title: "Evidence & verdict", items: ["Kusto", "Branch validation", "RCA"] },
+              { title: "Response loop", items: ["Replay", "Activity", "Support ticket"] }
+            ],
+            foundation: "Security boundary: subscription allowlists · private network scope · query windows and rate controls · RBAC / OIDC · audit and Prometheus metrics"
+          }
+        }
+      },
+      {
+        id: "tokenproxy",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M8.5 14.5 5 18v2h2l1-1 1 1 2-2-1-1 2.5-2.5M14.5 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm1.8-6.8h.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        lead: "Max",
+        statusKey: "statusPrototype",
+        technologies: ["TypeScript", "Node.js", "Playwright", "SAML / SCIM", "MySQL / SQLite", "Docker"],
+        links: [
+          { labelKey: "openGitHub", url: "https://github.com/enjoyopenfuture/ghcp-api-console" }
+        ],
+        zh: {
+          category: "企业 AI 接入",
+          name: "Token Proxy",
+          tagline: "为 GitHub Copilot 体验提供统一、可管理的企业入口。",
+          description: "以身份感知的接入层连接 EMU 生命周期、SSO 自动化、兼容 API 与统一运维控制台。",
+          capabilities: ["面向最终用户的身份与账号映射", "OpenAI 与 Anthropic 兼容接入", "账号、Token、用量与运行状态的统一管理"],
+          outcome: "简化企业用户与工具连接 Copilot 能力的方式，并把账号与接入运营集中到同一体验。",
+          architecture: {
+            note: "Proxy 作为编排中枢，把调用方身份映射到独立 EMU 账号，并协调 SSO 同步、自动登录、Token 生命周期与兼容协议转发。",
+            stages: [
+              { title: "客户端", items: ["Claude Code", "OpenAI 工具", "Anthropic 客户端"] },
+              { title: "API Proxy", items: ["兼容协议", "Identity 映射", "Token 路由"] },
+              { title: "企业身份", items: ["SAML SSO", "EMU / SCIM", "Seat 管理"] },
+              { title: "自动授权", items: ["Device Flow", "Playwright Login", "Copilot OAuth"] }
+            ],
+            foundation: "统一 Console 管理账号、登录任务、运行时设置、请求统计、AI Credits 与错误诊断；Proxy 支持 SQLite 与 MySQL 存储。"
+          }
+        },
+        en: {
+          category: "Enterprise AI access",
+          name: "Token Proxy",
+          tagline: "One manageable enterprise entry point for GitHub Copilot experiences.",
+          description: "An identity-aware access layer connecting EMU lifecycle, SSO automation, compatible APIs, and a unified operations console.",
+          capabilities: ["Identity and account mapping for end users", "OpenAI- and Anthropic-compatible access", "Unified operations for accounts, tokens, usage, and health"],
+          outcome: "Simplify how enterprise users and tools connect to Copilot-backed capabilities.",
+          architecture: {
+            note: "The proxy acts as the orchestration hub, mapping caller identity to an individual EMU account while coordinating SSO sync, automated login, token lifecycle, and compatible API forwarding.",
+            stages: [
+              { title: "Clients", items: ["Claude Code", "OpenAI tools", "Anthropic clients"] },
+              { title: "API proxy", items: ["Compatible APIs", "Identity mapping", "Token routing"] },
+              { title: "Enterprise identity", items: ["SAML SSO", "EMU / SCIM", "Seat management"] },
+              { title: "Automated auth", items: ["Device Flow", "Playwright login", "Copilot OAuth"] }
+            ],
+            foundation: "A unified console manages accounts, login tasks, runtime settings, request statistics, AI Credits, and diagnostics; the proxy supports SQLite and MySQL storage."
+          }
+        }
+      },
+      {
+        id: "sdd",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6V3Zm9 0v4h4M9 11h6M9 15h6M9 7h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        lead: "Zhouwei",
+        statusKey: "statusPilot",
+        technologies: ["GitHub Copilot", "Spec Kit", "OpenAPI", "gRPC", "Kafka", "AKS"],
+        links: [
+          { labelKey: "openGitHub", url: "https://github.com/alexawang_microsoft/mini-mall-sdd" }
+        ],
+        zh: {
+          category: "智能研发",
+          name: "SDD",
+          tagline: "让规格成为 AI 辅助交付的唯一事实源。",
+          description: "规格驱动工程框架，把业务意图、架构、契约、任务、实现、测试与发布标准连接为可持续演进的系统。",
+          capabilities: ["从项目宪章到可验收规格", "契约先行与服务边界治理", "实现、测试与发布条件的全链路追溯"],
+          outcome: "把 AI 辅助研发从依赖提示词的实验，升级为可复用、可验证的工程方法。",
+          architecture: {
+            note: "规格不是一次性文档，而是从原则、需求到实现与验收的持续事实源；发现偏差后重新进入任务与实现循环。",
+            stages: [
+              { title: "Constitution", items: ["原则", "边界", "质量门槛"] },
+              { title: "Specify", items: ["用户场景", "AC", "Clarify"] },
+              { title: "Plan", items: ["架构", "数据模型", "ADR"] },
+              { title: "Tasks", items: ["依赖排序", "测试优先", "检查点"] },
+              { title: "Implement", items: ["契约", "服务", "基础设施"] },
+              { title: "Validate", items: ["CI / E2E", "Converge", "Release"] }
+            ],
+            foundation: "Mini-Mall 示例覆盖 BFF、八个 Java 微服务、Vue Storefront、REST / gRPC / Event 契约、Outbox、AKS 与可观测性。"
+          }
+        },
+        en: {
+          category: "Agentic engineering",
+          name: "SDD",
+          tagline: "Make specifications the source of truth for AI-assisted delivery.",
+          description: "A spec-driven engineering framework connecting intent, architecture, contracts, tasks, implementation, tests, and release criteria.",
+          capabilities: ["From project constitution to testable specifications", "Contract-first design and service-boundary governance", "End-to-end traceability across build, test, and release"],
+          outcome: "Turn AI-assisted development from prompt-driven experimentation into a repeatable engineering system.",
+          architecture: {
+            note: "Specifications remain a living source of truth from principles and requirements through implementation and acceptance; discovered gaps return to the task and build loop.",
+            stages: [
+              { title: "Constitution", items: ["Principles", "Boundaries", "Quality bar"] },
+              { title: "Specify", items: ["User journeys", "Acceptance criteria", "Clarify"] },
+              { title: "Plan", items: ["Architecture", "Data model", "ADRs"] },
+              { title: "Tasks", items: ["Dependencies", "Test-first", "Checkpoints"] },
+              { title: "Implement", items: ["Contracts", "Services", "Infrastructure"] },
+              { title: "Validate", items: ["CI / E2E", "Converge", "Release"] }
+            ],
+            foundation: "The Mini-Mall example spans a BFF, eight Java services, a Vue storefront, REST / gRPC / event contracts, Outbox, AKS, and observability."
+          }
+        }
+      },
+      {
+        id: "dataplatform",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 6c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3Zm0 0v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        lead: "Deon & Guoqiang",
+        statusKey: "statusDelivered",
+        technologies: ["ADLS Gen2", "Delta Lake", "Apache Iceberg", "Databricks", "Microsoft Fabric", "Unity Catalog"],
+        links: [
+          { labelKey: "openBrief", url: "file:///C:/Users/dche/Desktop/azure-csa-solution-dashboard/solutions/self-hosted-data-platform.md" }
+        ],
+        zh: {
+          category: "数据与 AI 平台",
+          name: "自建湖仓数据平台",
+          tagline: "数据属于客户，格式保持开放，计算可以随需而变。",
+          description: "以开放表格式、客户自有存储和可替换计算引擎，构建自主可控且面向未来的湖仓底座。",
+          capabilities: ["Delta / Iceberg 开放表格式", "客户自有 ADLS Gen2 存储与统一治理", "Databricks、Fabric 与兼容引擎的灵活组合"],
+          outcome: "在现代化分析与 AI 的同时，保留数据主权、架构可迁移性与长期成本选择权。",
+          architecture: {
+            note: "客户自有 ADLS Gen2 是数据事实源，开放表格式解耦存储与计算，Medallion 分层把原始数据演进为可消费的业务语义。",
+            stages: [
+              { title: "数据源", items: ["数据库", "事件流", "文件 / API"] },
+              { title: "开放湖仓", items: ["ADLS Gen2", "Delta", "Iceberg"] },
+              { title: "数据加工", items: ["Bronze", "Silver", "Gold"] },
+              { title: "计算引擎", items: ["Databricks", "Fabric", "兼容引擎"] },
+              { title: "业务消费", items: ["BI", "API", "ML / AI"] }
+            ],
+            foundation: "横向治理：Unity Catalog · Entra ID · Key Vault · 血缘与审计 · Azure Monitor · Arc 混合环境纳管"
+          }
+        },
+        en: {
+          category: "Data & AI platform",
+          name: "Self-hosted Lakehouse",
+          tagline: "Own the data. Keep the format open. Change the compute when needed.",
+          description: "A customer-controlled lakehouse foundation built on open table formats, customer-owned storage, and replaceable compute engines.",
+          capabilities: ["Open Delta and Iceberg table formats", "Customer-owned ADLS Gen2 storage and unified governance", "A flexible mix of Databricks, Fabric, and compatible engines"],
+          outcome: "Preserve sovereignty, portability, and long-term choice while modernizing analytics and AI.",
+          architecture: {
+            note: "Customer-owned ADLS Gen2 remains the data source of truth; open table formats decouple storage from compute, while the Medallion pattern turns raw data into consumable business semantics.",
+            stages: [
+              { title: "Sources", items: ["Databases", "Event streams", "Files / APIs"] },
+              { title: "Open lakehouse", items: ["ADLS Gen2", "Delta", "Iceberg"] },
+              { title: "Data refinement", items: ["Bronze", "Silver", "Gold"] },
+              { title: "Compute", items: ["Databricks", "Fabric", "Compatible engines"] },
+              { title: "Consumption", items: ["BI", "APIs", "ML / AI"] }
+            ],
+            foundation: "Horizontal governance: Unity Catalog · Entra ID · Key Vault · lineage and audit · Azure Monitor · Arc for hybrid estates"
+          }
+        }
+      },
+      {
+        id: "cockpit",
+        icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19V8l8-4 8 4v11M4 13h16M8 13v6m8-6v6M9 9h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        lead: "Alexa",
+        statusKey: "statusComing",
+        technologies: ["Experience design", "Unified context", "Action orchestration"],
+        links: [],
+        zh: {
+          category: "统一体验",
+          name: "Cockpit",
+          tagline: "一个新的统一工作驾驶舱，正在形成。",
+          description: "由 Alexa 负责的下一项解决方案。正式故事、体验与能力将在方案完成后加入。",
+          capabilities: ["面向角色的统一视图", "上下文相关的洞察与行动", "跨场景的个性化工作体验"],
+          outcome: "即将推出。",
+          architecture: {
+            note: "当前仅展示产品愿景：把分散信号、上下文与操作入口汇聚为面向角色的统一工作体验，正式架构以 Alexa 的方案为准。",
+            stages: [
+              { title: "信号", items: ["运营数据", "业务事件", "用户上下文"] },
+              { title: "上下文层", items: ["身份", "优先级", "智能摘要"] },
+              { title: "Cockpit", items: ["统一视图", "个性洞察", "工作入口"] },
+              { title: "行动", items: ["协作", "自动化", "决策闭环"] }
+            ],
+            foundation: "产品故事、目标用户、技术架构与项目入口将在 Alexa 的正式方案到位后更新。"
+          }
+        },
+        en: {
+          category: "Unified experience",
+          name: "Cockpit",
+          tagline: "A new unified work cockpit is taking shape.",
+          description: "The next solution led by Alexa. Its full story, experience, and capabilities will be added when the solution brief is ready.",
+          capabilities: ["Role-based unified views", "Contextual insights and actions", "Personalized experiences across scenarios"],
+          outcome: "Coming soon.",
+          architecture: {
+            note: "This is a vision placeholder: bring fragmented signals, context, and actions into one role-based work experience. The final architecture will follow Alexa's solution brief.",
+            stages: [
+              { title: "Signals", items: ["Operations data", "Business events", "User context"] },
+              { title: "Context layer", items: ["Identity", "Prioritization", "AI summary"] },
+              { title: "Cockpit", items: ["Unified view", "Personal insights", "Work entry"] },
+              { title: "Action", items: ["Collaboration", "Automation", "Closed-loop decisions"] }
+            ],
+            foundation: "The product story, target users, technical architecture, and project resource will be updated when Alexa's formal solution brief is available."
+          }
+        }
+      }
+    ];
+
+    const JOURNEY = [
+      {
+        zh: { title: "迁移", text: "降低平台切换与应用改造的摩擦。" },
+        en: { title: "Migrate", text: "Reduce friction across platform change and application modernization." }
+      },
+      {
+        zh: { title: "运营", text: "让复杂环境中的信号更快变成行动。" },
+        en: { title: "Operate", text: "Turn signals from complex environments into action faster." }
+      },
+      {
+        zh: { title: "接入", text: "为企业 AI 能力提供统一体验与治理。" },
+        en: { title: "Access", text: "Create a consistent, governed way to reach enterprise AI." }
+      },
+      {
+        zh: { title: "构建", text: "把 AI 辅助研发变成可重复的工程系统。" },
+        en: { title: "Build", text: "Make AI-assisted delivery a repeatable engineering system." }
+      },
+      {
+        zh: { title: "开放", text: "在创新的同时保留主权、可迁移性与选择权。" },
+        en: { title: "Stay open", text: "Preserve sovereignty, portability, and choice while innovating." }
+      }
+    ];
+
+    const solutionsGrid = document.querySelector("#solutionsGrid");
+    const journeyRail = document.querySelector("#journeyRail");
+    const solutionDialog = document.querySelector("#solutionDialog");
+    const dialogCategory = document.querySelector("#dialogCategory");
+    const dialogTitle = document.querySelector("#dialogTitle");
+    const dialogMeta = document.querySelector("#dialogMeta");
+    const dialogStatement = document.querySelector("#dialogStatement");
+    const dialogCapabilities = document.querySelector("#dialogCapabilities");
+    const dialogOutcome = document.querySelector("#dialogOutcome");
+    const dialogLead = document.querySelector("#dialogLead");
+    const dialogArchitectureNote = document.querySelector("#dialogArchitectureNote");
+    const dialogArchitecture = document.querySelector("#dialogArchitecture");
+    const dialogFoundation = document.querySelector("#dialogFoundation");
+    const dialogTechnologies = document.querySelector("#dialogTechnologies");
+    const dialogLinks = document.querySelector("#dialogLinks");
+    let currentLanguage = document.documentElement.dataset.language || "zh";
+    let activeSolutionId = null;
+
+    const escapeHtml = (value) => String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+    const translateStaticCopy = () => {
+      const copy = COPY[currentLanguage];
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.dataset.i18n;
+        if (copy[key]) node.textContent = copy[key];
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+        const key = node.dataset.i18nHtml;
+        if (copy[key]) node.innerHTML = copy[key];
+      });
+    };
+
+    const renderSolutions = () => {
+      const copy = COPY[currentLanguage];
+      solutionsGrid.innerHTML = SOLUTIONS.map((solution, index) => {
+        const text = solution[currentLanguage];
+        return `
+          <article
+            class="solution-card reveal"
+            data-id="${escapeHtml(solution.id)}"
+            tabindex="0"
+            role="button"
+            aria-label="${escapeHtml(copy.discover)} ${escapeHtml(text.name)}"
+            style="transition-delay:${Math.min(index * 60, 240)}ms"
+          >
+            <div class="card-topline">
+              <span class="solution-icon" aria-hidden="true">${solution.icon}</span>
+              <span class="solution-state">${escapeHtml(copy[solution.statusKey])}</span>
+            </div>
+            <span class="solution-category">${escapeHtml(text.category)}</span>
+            <h3>${escapeHtml(text.name)}</h3>
+            <p>${escapeHtml(text.tagline)}</p>
+            <footer class="card-footer">
+              <span class="solution-lead">
+                <span>${escapeHtml(copy.solutionLead)}</span>
+                <strong>${escapeHtml(solution.lead)}</strong>
+              </span>
+              <span class="discover-link">
+                ${escapeHtml(copy.discover)}
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </footer>
+          </article>
+        `;
+      }).join("");
+      observeReveals();
+    };
+
+    const renderJourney = () => {
+      journeyRail.innerHTML = JOURNEY.map((item, index) => `
+        <article class="journey-item reveal" style="transition-delay:${index * 70}ms">
+          <span class="journey-number">0${index + 1}</span>
+          <h3>${escapeHtml(item[currentLanguage].title)}</h3>
+          <p>${escapeHtml(item[currentLanguage].text)}</p>
+        </article>
+      `).join("");
+      observeReveals();
+    };
+
+    const openSolution = (id) => {
+      const solution = SOLUTIONS.find((item) => item.id === id);
+      if (!solution) return;
+      const text = solution[currentLanguage];
+      const card = document.querySelector(`.solution-card[data-id="${id}"]`);
+      const accent = card ? getComputedStyle(card).getPropertyValue("--card-accent") : "var(--blue)";
+
+      activeSolutionId = id;
+      solutionDialog.style.setProperty("--dialog-accent", accent);
+      dialogCategory.textContent = text.category;
+      dialogTitle.textContent = text.name;
+      dialogMeta.textContent = `${COPY[currentLanguage][solution.statusKey]} · ${COPY[currentLanguage].solutionLead}: ${solution.lead}`;
+      dialogStatement.textContent = text.description;
+      dialogCapabilities.innerHTML = text.capabilities.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+      dialogOutcome.textContent = text.outcome;
+      dialogLead.textContent = solution.lead;
+      dialogArchitectureNote.textContent = text.architecture.note;
+      dialogArchitecture.innerHTML = text.architecture.stages.map((stage, index) => `
+        <div class="architecture-stage">
+          <span class="stage-index">${String(index + 1).padStart(2, "0")}</span>
+          <strong>${escapeHtml(stage.title)}</strong>
+          <div class="architecture-items">
+            ${stage.items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </div>
+      `).join("");
+      dialogFoundation.textContent = text.architecture.foundation;
+      dialogTechnologies.innerHTML = solution.technologies
+        .map((item) => `<span class="technology-chip">${escapeHtml(item)}</span>`)
+        .join("");
+      dialogLinks.innerHTML = solution.links.length
+        ? solution.links.map((link) => `
+          <a class="project-link" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer">
+            ${escapeHtml(COPY[currentLanguage][link.labelKey])}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14 5h5v5M19 5l-8 8M18 13v5H6V6h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        `).join("")
+        : `<span class="project-link-disabled">${escapeHtml(COPY[currentLanguage].resourcePending)}</span>`;
+      if (!solutionDialog.open) solutionDialog.showModal();
+      document.querySelector(".dialog-body").scrollTop = 0;
+    };
+
+    const switchLanguage = (language) => {
+      if (language === currentLanguage) return;
+      currentLanguage = language;
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+      document.documentElement.dataset.language = language;
+      document.body.classList.add("lang-changing");
+      window.setTimeout(() => document.body.classList.remove("lang-changing"), 280);
+
+      document.querySelectorAll("[data-language-button]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.languageButton === language);
+      });
+
+      translateStaticCopy();
+      renderSolutions();
+      renderJourney();
+      if (solutionDialog.open && activeSolutionId) openSolution(activeSolutionId);
+    };
+
+    let revealObserver;
+    const observeReveals = () => {
+      if (!revealObserver) {
+        revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12 });
+      }
+
+      document.querySelectorAll(".reveal:not(.visible)").forEach((node) => revealObserver.observe(node));
+    };
+
+    solutionsGrid.addEventListener("click", (event) => {
+      const card = event.target.closest(".solution-card");
+      if (card) openSolution(card.dataset.id);
+    });
+
+    solutionsGrid.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const card = event.target.closest(".solution-card");
+      if (!card) return;
+      event.preventDefault();
+      openSolution(card.dataset.id);
+    });
+
+    solutionsGrid.addEventListener("pointermove", (event) => {
+      const card = event.target.closest(".solution-card");
+      if (!card || window.matchMedia("(pointer: coarse)").matches) return;
+      const rect = card.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${(-y * 4).toFixed(2)}deg) rotateY(${(x * 5).toFixed(2)}deg) translateY(-4px)`;
+    });
+
+    solutionsGrid.addEventListener("pointerout", (event) => {
+      const card = event.target.closest(".solution-card");
+      if (!card || card.contains(event.relatedTarget)) return;
+      card.style.transform = "";
+    });
+
+    document.querySelectorAll("[data-language-button]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.languageButton === currentLanguage);
+      button.addEventListener("click", () => switchLanguage(button.dataset.languageButton));
+    });
+
+    document.querySelector("#dialogClose").addEventListener("click", () => solutionDialog.close());
+    solutionDialog.addEventListener("click", (event) => {
+      if (event.target === solutionDialog) solutionDialog.close();
+    });
+
+    window.addEventListener("pointermove", (event) => {
+      document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
+      document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
+    }, { passive: true });
+
+    const syncScrollUi = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      document.querySelector("#scrollProgress").style.width = `${Math.min(progress, 100)}%`;
+      document.querySelector("#siteHeader").classList.toggle("scrolled", window.scrollY > 12);
+    };
+
+    window.addEventListener("scroll", syncScrollUi, { passive: true });
+    syncScrollUi();
+    translateStaticCopy();
+    renderSolutions();
+    renderJourney();
+    observeReveals();
+  </script>
+</body>
+</html>
