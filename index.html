@@ -1835,7 +1835,7 @@
           <div class="floating-chip chip-s3"><span>S3</span><span>S3 Proxy</span></div>
           <div class="floating-chip chip-aiops"><span>AI</span><span>AIOps</span></div>
           <div class="floating-chip chip-token"><span>TP</span><span>Token Proxy</span></div>
-          <div class="floating-chip chip-cockpit"><span>CX</span><span>Cockpit</span></div>
+          <div class="floating-chip chip-cockpit"><span>VC</span><span>Voice Cockpit</span></div>
           <div class="floating-chip chip-sdd"><span>SDD</span><span>Spec-driven</span></div>
           <div class="floating-chip chip-data"><span>LH</span><span>Lakehouse</span></div>
         </div>
@@ -1972,6 +1972,7 @@
         statusPilot: "试点中",
         statusPrototype: "原型方案",
         statusDelivered: "已交付",
+        statusProduction: "生产验证",
         statusComing: "即将推出"
       },
       en: {
@@ -2008,6 +2009,7 @@
         statusPilot: "In pilot",
         statusPrototype: "Prototype",
         statusDelivered: "Delivered",
+        statusProduction: "Production proven",
         statusComing: "Coming soon"
       }
     };
@@ -2253,43 +2255,49 @@
         id: "cockpit",
         icon: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19V8l8-4 8 4v11M4 13h16M8 13v6m8-6v6M9 9h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         lead: "Alexa",
-        statusKey: "statusComing",
-        technologies: ["Experience design", "Unified context", "Action orchestration"],
-        links: [],
+        statusKey: "statusProduction",
+        technologies: ["Speech e2e SDK", "Azure Front Door", "AGC", "AKS", "OpenTelemetry", "Azure Monitor"],
+        links: [
+          { labelKey: "openGitHub", url: "https://github.com/alexawang_microsoft/voice-cockpit" }
+        ],
         zh: {
-          category: "统一体验",
-          name: "Cockpit",
-          tagline: "一个新的统一工作驾驶舱，正在形成。",
-          description: "由 Alexa 负责的下一项解决方案。正式故事、体验与能力将在方案完成后加入。",
-          capabilities: ["面向角色的统一视图", "上下文相关的洞察与行动", "跨场景的个性化工作体验"],
-          outcome: "即将推出。",
+          category: "智能座舱",
+          name: "Voice Cockpit",
+          tagline: "连接车端语音与云端智能，打造自然、连续、低时延的座舱交互。",
+          description: "面向智能驾驶座舱的端到端语音服务平台，以语音为主要入口，协同端侧语音引擎、云端生成式服务、OEM Agent 与车辆系统。",
+          capabilities: ["云端与端侧 ASR / NLU / TTS 协同", "基于意图、上下文与可用性的语义路由", "基础服务、生成式服务与 OEM Agent 统一编排", "面向质量、遥测、发布与降级的持续运营体系"],
+          outcome: "为驾乘人员提供自然、连续且可运营的语音体验，同时让 OEM 保留安全关键命令的最终授权与执行权。",
           architecture: {
-            note: "当前仅展示产品愿景：把分散信号、上下文与操作入口汇聚为面向角色的统一工作体验，正式架构以 Alexa 的方案为准。",
+            note: "语音与多模态事件先由车端完成低时延处理，再经 Azure 全球入口进入 AKS 中的认知网关，由语义路由器编排基础服务、生成式服务与 OEM Agent。",
             stages: [
-              { title: "信号", items: ["运营数据", "业务事件", "用户上下文"] },
-              { title: "上下文层", items: ["身份", "优先级", "智能摘要"] },
-              { title: "Cockpit", items: ["统一视图", "个性洞察", "工作入口"] },
-              { title: "行动", items: ["协作", "自动化", "决策闭环"] }
+              { title: "驾乘人员", items: ["语音", "多模态事件"] },
+              { title: "车端 Speech SDK", items: ["ASR", "NLU", "TTS", "离线降级"] },
+              { title: "Azure 全球入口", items: ["Front Door Premium", "WAF", "TLS"] },
+              { title: "AKS 接入层", items: ["AGC", "Gateway API", "流量治理"] },
+              { title: "认知网关", items: ["会话", "上下文", "语义路由", "降级"] },
+              { title: "服务与执行", items: ["基础服务", "生成式服务", "OEM Agent", "车辆系统"] }
             ],
-            foundation: "产品故事、目标用户、技术架构与项目入口将在 Alexa 的正式方案到位后更新。"
+            foundation: "运营与安全：OpenTelemetry · Azure Managed Prometheus · Azure Monitor · Tempo / Grafana · 敏感数据最小化 · OEM 层完成车辆权限、安全状态与法规校验"
           }
         },
         en: {
-          category: "Unified experience",
-          name: "Cockpit",
-          tagline: "A new unified work cockpit is taking shape.",
-          description: "The next solution led by Alexa. Its full story, experience, and capabilities will be added when the solution brief is ready.",
-          capabilities: ["Role-based unified views", "Contextual insights and actions", "Personalized experiences across scenarios"],
-          outcome: "Coming soon.",
+          category: "Automotive AI",
+          name: "Voice Cockpit",
+          tagline: "Connect edge speech and cloud intelligence for natural, continuous, low-latency in-vehicle interaction.",
+          description: "An end-to-end voice service platform for intelligent vehicles, orchestrating edge speech engines, cloud generative services, OEM agents, and vehicle systems through a voice-first experience.",
+          capabilities: ["Cloud-edge coordination across ASR, NLU, and TTS", "Semantic routing based on intent, context, availability, and policy", "Unified orchestration across foundation services, generative services, and OEM agents", "Operational governance for quality, telemetry, releases, and graceful degradation"],
+          outcome: "Deliver a natural, continuous, and operable voice experience while preserving OEM authority over safety-critical validation and vehicle execution.",
           architecture: {
-            note: "This is a vision placeholder: bring fragmented signals, context, and actions into one role-based work experience. The final architecture will follow Alexa's solution brief.",
+            note: "Voice and multimodal events receive low-latency processing at the edge, enter Azure through a global protected ingress, and reach a cognitive gateway on AKS that orchestrates foundation, generative, and OEM services.",
             stages: [
-              { title: "Signals", items: ["Operations data", "Business events", "User context"] },
-              { title: "Context layer", items: ["Identity", "Prioritization", "AI summary"] },
-              { title: "Cockpit", items: ["Unified view", "Personal insights", "Work entry"] },
-              { title: "Action", items: ["Collaboration", "Automation", "Closed-loop decisions"] }
+              { title: "Occupants", items: ["Voice", "Multimodal events"] },
+              { title: "Edge Speech SDK", items: ["ASR", "NLU", "TTS", "Offline fallback"] },
+              { title: "Azure global ingress", items: ["Front Door Premium", "WAF", "TLS"] },
+              { title: "AKS ingress", items: ["AGC", "Gateway API", "Traffic governance"] },
+              { title: "Cognitive gateway", items: ["Session", "Context", "Semantic routing", "Fallback"] },
+              { title: "Services & execution", items: ["Foundation", "Generative AI", "OEM agent", "Vehicle"] }
             ],
-            foundation: "The product story, target users, technical architecture, and project resource will be updated when Alexa's formal solution brief is available."
+            foundation: "Operations and safety: OpenTelemetry · Azure Managed Prometheus · Azure Monitor · Tempo / Grafana · sensitive-data minimization · OEM validation for permissions, vehicle state, and regulatory policy"
           }
         }
       }
